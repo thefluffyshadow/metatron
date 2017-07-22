@@ -1,0 +1,22 @@
+Score: 1
+---
+A
+List
+of
+Strings
+ending
+with
+newlines
+for
+each
+instruction
+A
+List
+of
+Strings
+ending
+with
+newlines
+for
+each
+instruction
