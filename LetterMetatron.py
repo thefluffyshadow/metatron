@@ -15,7 +15,7 @@ from string import ascii_letters
 from time import time
 
 seed()  # Change the random seed each time the code is run.
-source = ascii_letters + ' '
+source = ascii_letters
 
 
 class Timer:
@@ -161,11 +161,10 @@ class SortingLord:
         # Mutation 1: Add random characters to the end of the string
         # Mutation 2: Increment random characters in the string by 1 character
 
-        mutation_choice = random()
+        mutation_choice = random() * sum(mutation_weights)
 
         # Turn the mutation weights list into a list of probabilities
-        total = sum(mutation_weights)
-        for i in mutation_weights:
+        for i in range(len(mutation_weights)):
             mutation_weights[i] = sum(mutation_weights[0:i+1])
         
         # Mutation 0
@@ -215,7 +214,7 @@ class SortingLord:
                          '='*32 + '\n' +
                          "First 5 programs generated:\n----\n")
             for forefather in range(5):
-                scribe.write("\n".join(map(str, self.population[forefather])) + '\n----\n')
+                scribe.write(''.join(map(str, self.population[forefather])) + '\n----\n')
 
             global_timer = Timer()  # Timer to time the entire GA process
             generation_timer = Timer()  # Timer to time individual generations between displays
@@ -263,9 +262,13 @@ class SortingLord:
                     generation_timer.reset_timer()
 
             global_timer.stop_timer()
+
+            time_to_run = "{:0>2.0f}:{:0>6.3f}".format(global_timer.duration / 60,
+                                                   global_timer.duration % 60)
+
             output_end_string = "Best Program (Fitness: {:})\n".format(self.bestFitness) + \
                                 "Generations: {:,}".format(self.max_generations) + '\n' + \
-                                "Time to run: {:4.3f} sec\n".format(global_timer.duration) + \
+                                "Time to run: {}\n".format(time_to_run) + \
                                 '='*32 + '\n' + \
                                 "{}".format(''.join(self.best_minion))
             scribe.write(output_end_string)
@@ -280,12 +283,12 @@ if __name__ == '__main__':
     Also, when running, the GA will run in a shorter "test mode."
     """
     Blink_distance = 100  # Displays Tracer messages every x generations.
-    goal = "Champion"
+    goal = "Bullshit"
 
     if Tracer:
         HedleyLamarr = SortingLord(10, 6, 0.5, 2)
 
     else:
-        HedleyLamarr = SortingLord(10000, 100, 0.02, 4)
+        HedleyLamarr = SortingLord(42000, 100, 0.02, 4)
 
     HedleyLamarr.now_go_do_that_voodoo_that_you_do_so_well()
