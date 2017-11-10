@@ -171,24 +171,36 @@ class SortingLord:
         if mutation_choice < mutation_weights[0]:
             shuffle(minion)
 
+            if Tracer:
+                print("Mutation - shuffling")
+                print("Mutated: " + str(minion))
+
         # Mutation 1
         elif mutation_choice < mutation_weights[1]:
             delta = randint(2, len(minion))
             for _ in range(delta):
                 minion.append(source[randint(0, len(source)) - 1])
 
+            if Tracer:
+                print("Mutation - appending characters")
+                print("Mutated: " + str(minion))
+
         # Mutation 2
         elif mutation_choice < mutation_weights[2]:
-            for char in minion:
+            for c in range(len(minion)):
                 if random() < 0.5:
-                    char = chr(ord(char) + 1)  # TODO
+                    minion[c] = chr(ord(minion[c]) + 1)
+
+            if Tracer:
+                print("Mutation - incrementing characters")
+                print("Mutated: " + str(minion))
 
         return minion
 
     @staticmethod
     def test_fitness(minion):
 
-        fitness = 0
+        fitness = 10
 
         if len(minion) != len(goal):
             fitness -= abs(len(minion) - len(goal))
@@ -257,7 +269,7 @@ class SortingLord:
                 if gen % Blink_distance == 0 or gen == self.max_generations:
                     generation_timer.stop_timer()
                     print("|| Generation: {:6,} | Best Fitness: {:3} ".format(gen, generation_best_fitness) +
-                          "| Average: {:2.2f} | Overall Best: {:3} | ".format(self.averageFitness, self.bestFitness) +
+                          "| Average: {:5.2f} | Overall Best: {:3} | ".format(self.averageFitness, self.bestFitness) +
                           "Time: {:4.3f} sec ||".format(generation_timer.duration))
                     generation_timer.reset_timer()
 
@@ -289,6 +301,6 @@ if __name__ == '__main__':
         HedleyLamarr = SortingLord(10, 6, 0.5, 2)
 
     else:
-        HedleyLamarr = SortingLord(10000, 50, 0.0625, 4)
+        HedleyLamarr = SortingLord(10000, 100, 0.0625, 4)
 
     HedleyLamarr.now_go_do_that_voodoo_that_you_do_so_well()
