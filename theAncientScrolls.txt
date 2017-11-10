@@ -2,18 +2,18 @@ Record of the SortingLord Genetic Algorithm
 ================================
 First 5 programs generated:
 ----
-jGYNebEEBtATVcCJCrV
+cGkfmrwLkjEgGKgpgxz
 ----
-fmzjokIFZODkRVlrqGy
+OlOZHWyPUTvDpSUCUHY
 ----
-NFsETiKaFcCUvQXjMGe
+eZEYAZcXpJrNiLWvHQj
 ----
-AVTSaRKBzLWErOvpkyx
+bQdfUkVgOhpVqnpKrnD
 ----
-tEjUIPEeZuJzmNBMLYL
+zuQdcniadrrjaficuWM
 ----
-Best Program (Fitness: 105)
-Generations: 42,000
-Time to run: 05:31.603
+Best Program (Fitness: 32)
+Generations: 10,000
+Time to run: 00:27.887
 ================================
-Utnnshjt
+Bullshit
