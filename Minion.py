@@ -17,13 +17,25 @@ File Description:
 class Minion:
     def __init__(self, program_id, program):
         self.id = program_id
-        self.program = program  # Program is passed in as a list from breeding (or from new generation).
+
+        # Program is passed in as a list from breeding (or from new generation).
+        # If no given program (i.e. from breeding) is passed in, then a new program is generated for the Minion.
+        if self.program is not None:
+            self.program = program
+        else:
+            self.program = self.spawn()
+
         self.fitness = self.fitness(self.program)
 
     def __str__(self):
         return '\n'.join(self.program)
 
-    def generate_python(self):
+    @staticmethod
+    def spawn():
+        """
+        Creates a new python program from samples.
+        :return:
+        """
         return []
 
     def fitness(self):
@@ -31,4 +43,6 @@ class Minion:
         Measures and returns the fitness of the minion.
         :return: int
         """
+        print("{}:\n{}".format(self.id, self.program))
+
         return 42
