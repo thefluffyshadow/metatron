@@ -166,10 +166,14 @@ class SortingLord:
         # Turn the mutation weights list into a list of probabilities
         for i in range(len(mutation_weights)):
             mutation_weights[i] = sum(mutation_weights[0:i+1])
-        
+
         # Mutation 0
         if mutation_choice < mutation_weights[0]:
             shuffle(minion)
+
+            if Tracer:
+                print("Mutation - shuffling")
+                print("Mutated: " + str(minion))
 
         # Mutation 1
         elif mutation_choice < mutation_weights[1]:
@@ -177,29 +181,37 @@ class SortingLord:
             for _ in range(delta):
                 minion.append(source[randint(0, len(source)) - 1])
 
+            if Tracer:
+                print("Mutation - appending characters")
+                print("Mutated: " + str(minion))
+
         # Mutation 2
         elif mutation_choice < mutation_weights[2]:
-            for char in minion:
-                if random() < 0.334:
-                    char = (ord(char) + 1)  # TODO
+            for c in range(len(minion)):
+                if random() < 0.5:
+                    minion[c] = chr(ord(minion[c]) + 1)
+
+            if Tracer:
+                print("Mutation - incrementing characters")
+                print("Mutated: " + str(minion))
 
         return minion
 
     @staticmethod
     def test_fitness(minion):
 
-        error_dist = 0
+        fitness = 10
 
         if len(minion) != len(goal):
-            error_dist += 30
-            error_dist += abs(len(minion) - len(goal))
+            fitness -= abs(len(minion) - len(goal))
         else:
-            for char in range(len(goal)):
-                error_dist += abs((ord(goal[char]) - ord(minion[char][0])))
-                if goal[char] == minion[char]:
-                    error_dist -= 10
+            for char in minion:
+                if char in goal:
+                    fitness += 1
 
-        fitness = 100 - error_dist
+            for i in range(min((len(minion), len(goal)))):
+                if minion[i] == goal[i]:
+                    fitness += 3
 
         return fitness
 
@@ -257,7 +269,7 @@ class SortingLord:
                 if gen % Blink_distance == 0 or gen == self.max_generations:
                     generation_timer.stop_timer()
                     print("|| Generation: {:6,} | Best Fitness: {:3} ".format(gen, generation_best_fitness) +
-                          "| Average: {:2.2f} | Overall Best: {:3} | ".format(self.averageFitness, self.bestFitness) +
+                          "| Average: {:5.2f} | Overall Best: {:3} | ".format(self.averageFitness, self.bestFitness) +
                           "Time: {:4.3f} sec ||".format(generation_timer.duration))
                     generation_timer.reset_timer()
 
@@ -289,6 +301,6 @@ if __name__ == '__main__':
         HedleyLamarr = SortingLord(10, 6, 0.5, 2)
 
     else:
-        HedleyLamarr = SortingLord(42000, 100, 0.02, 4)
+        HedleyLamarr = SortingLord(10000, 100, 0.0625, 4)
 
     HedleyLamarr.now_go_do_that_voodoo_that_you_do_so_well()
