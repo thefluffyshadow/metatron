@@ -15,7 +15,7 @@ from string import ascii_letters
 from time import time
 
 seed()  # Change the random seed each time the code is run.
-source = ascii_letters
+source = ascii_letters + ' '
 
 
 class Timer:
@@ -199,19 +199,21 @@ class SortingLord:
 
     @staticmethod
     def test_fitness(minion):
+        scale = len(goal)
+        fitness = 0
 
-        fitness = 10
-
-        if len(minion) != len(goal):
-            fitness -= abs(len(minion) - len(goal))
+        if len(minion) != scale:
+            fitness -= scale * abs(len(minion) - len(goal))
         else:
             for char in minion:
                 if char in goal:
-                    fitness += 1
+                    fitness += scale
 
             for i in range(min((len(minion), len(goal)))):
                 if minion[i] == goal[i]:
-                    fitness += 3
+                    fitness += 3 * scale
+                else:
+                    fitness -= abs(ord(minion[i]) - ord(goal[i]))
 
         return fitness
 
@@ -231,8 +233,15 @@ class SortingLord:
             global_timer = Timer()  # Timer to time the entire GA process
             generation_timer = Timer()  # Timer to time individual generations between displays
 
-            for gen in range(self.max_generations + 1):
-                generation_best_fitness = -float('inf')
+            # for gen in range(self.max_generations + 1):
+            gen = -1
+            generation_best_fitness = -float('inf')
+            genstart = time()
+
+            while generation_best_fitness < self.test_fitness(goal) and gen < self.max_generations:
+                if time() - genstart > 1:
+                    genstart = time()
+                gen += 1
 
                 if Tracer:
                     for i in range(len(self.population)):
@@ -266,20 +275,19 @@ class SortingLord:
                     for member in self.elite_force:
                         print('> \'' + ''.join(member) + '\'')
 
-                if gen % Blink_distance == 0 or gen == self.max_generations:
+                if time() - genstart > 1 or gen == self.max_generations or gen == 0:
                     generation_timer.stop_timer()
-                    print("|| Generation: {:6,} | Best Fitness: {:3} ".format(gen, generation_best_fitness) +
-                          "| Average: {:5.2f} | Overall Best: {:3} | ".format(self.averageFitness, self.bestFitness) +
+                    print("|| Generation: {:6,} | Best Fitness: {:8,} ".format(gen, generation_best_fitness) +
+                          "| Average: {:8,} | Overall Best: {:8,} | ".format(self.averageFitness, self.bestFitness) +
                           "Time: {:4.3f} sec ||".format(generation_timer.duration))
                     generation_timer.reset_timer()
 
             global_timer.stop_timer()
 
-            time_to_run = "{:0>2.0f}:{:0>6.3f}".format(global_timer.duration / 60,
-                                                   global_timer.duration % 60)
+            time_to_run = "{:0>2.0f}:{:0>6.3f}".format(global_timer.duration / 60, global_timer.duration % 60)
 
-            output_end_string = "Best Program (Fitness: {:})\n".format(self.bestFitness) + \
-                                "Generations: {:,}".format(self.max_generations) + '\n' + \
+            output_end_string = "Best Program (Fitness: {:8,})\n".format(self.bestFitness) + \
+                                "Generations: {:8,}\n".format(gen) + \
                                 "Time to run: {}\n".format(time_to_run) + \
                                 '='*32 + '\n' + \
                                 "{}".format(''.join(self.best_minion))
@@ -294,13 +302,12 @@ if __name__ == '__main__':
     If Tracer is turned on, debugging statements will be printed to the console.
     Also, when running, the GA will run in a shorter "test mode."
     """
-    Blink_distance = 100  # Displays Tracer messages every x generations.
-    goal = "Bullshit"
+    goal = "Champion of the World"
 
     if Tracer:
         HedleyLamarr = SortingLord(10, 6, 0.5, 2)
 
     else:
-        HedleyLamarr = SortingLord(10000, 100, 0.0625, 4)
+        HedleyLamarr = SortingLord(100000, 100, 0.1, 4)
 
     HedleyLamarr.now_go_do_that_voodoo_that_you_do_so_well()
