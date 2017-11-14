@@ -1,6 +1,6 @@
 """
 Programmer: Zachary Champion
-Project:    Eugenics, Inc.
+Project:    metatron
 Project Description:
             A program that generates programs in the same language in which the program itself is written.
             Metatron Jr. uses a genetic algorithm to breed programs in python; it writes down anything that works
