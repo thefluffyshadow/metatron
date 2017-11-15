@@ -18,21 +18,18 @@ from random import seed, randint, choice
 
 
 class Breeder:
-    def __init__(self, max_generations, population_size, mutation_chance, tournament_size):
+    def __init__(self, population_size, tournament_size):
         # Breeder's policies
-        self.max_generations = max_generations
         self.population_size = population_size
-        self.mutation_chance = mutation_chance
         self.tournament_size = tournament_size
 
         # Breeder's inventory
-        self.population = [Minion.spawn() for _ in range(self.population_size)]
-        self.nxt_population = []
-        self.elite_force = []  # Here is going to be the list of all the programs that run without errors.
+        self.population = [Minion.spawn_program() for _ in range(self.population_size)]
+        self.next_population = []
 
         # Breeder's records - overall
-        self.best_minion = None  # Best program so far (Should it only be if the program runs?)
-
+        self.best_minion = None  # Best program so far
+        self.elite_force = []  # Here is going to be the list of all the programs that run without errors.
 
     @staticmethod
     def breed(parents):
@@ -59,16 +56,17 @@ class Breeder:
 
         return child
 
-    def mutate(self, minion):
+    @staticmethod
+    def mutate(minion):
         """
         Mutates the minion (python code) in some way.
         Right now, it creates an entirely new program.
         :param minion:
         :return:
         """
-        return minion.spawn()
+        return Minion.spawn_program()
 
-    def mating_ritual(self, population):
+    def mating_ritual(self):
         """
         Uses tournament selection with a variable sized tournament to select breeding parent individuals.
         Returns the two most fit parents in the randomly selected arena to breed.
@@ -76,7 +74,7 @@ class Breeder:
         :return: a tuple with 2 parents
         """
         # Choose random tournament participants up to the size of the tournament.
-        arena = [choice(population) for _ in range(self.tournament_size)]
+        arena = [choice(self.population) for _ in range(self.tournament_size)]
 
         # Look through the arena for the most and second most fit individuals.
         champion, runnerup = arena[0], arena[1]
