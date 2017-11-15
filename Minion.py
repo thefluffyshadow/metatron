@@ -14,6 +14,14 @@ File Description:
 """
 
 
+def spawn():
+    """
+    Creates a new python program from samples.
+    :return:
+    """
+    return []
+
+
 class Minion:
     def __init__(self, program_id, program):
         self.id = program_id
@@ -23,20 +31,12 @@ class Minion:
         if self.program is not None:
             self.program = program
         else:
-            self.program = self.spawn()
+            self.program = spawn()
 
         self.fitness = self.fitness(self.program)
 
     def __str__(self):
         return '\n'.join(self.program)
-
-    @staticmethod
-    def spawn():
-        """
-        Creates a new python program from samples.
-        :return:
-        """
-        return []
 
     def fitness(self):
         """

@@ -25,8 +25,14 @@ class Breeder:
         self.mutation_chance = mutation_chance
         self.tournament_size = tournament_size
 
-        # Breeder's records
-        # TODO: think of stats to keep track of
+        # Breeder's inventory
+        self.population = [Minion.spawn() for _ in range(self.population_size)]
+        self.nxt_population = []
+        self.elite_force = []  # Here is going to be the list of all the programs that run without errors.
+
+        # Breeder's records - overall
+        self.best_minion = None  # Best program so far (Should it only be if the program runs?)
+
 
     @staticmethod
     def breed(parents):
