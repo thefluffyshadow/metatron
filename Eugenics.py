@@ -49,8 +49,14 @@ def build_army(max_time, max_gens, population_size, mutation_chance, tournament_
 
 def get_genes():
     with open("dna.py") as f:
-        words = f.read().split("\n")
-    return words
+        prog = f.read().split("\n")
+
+    # Filter out blank lines
+    for line in range(len(prog)-1):
+        if prog[line] == "":
+            prog = prog[:line] + prog[line+1:]
+
+    return prog
 
 
 if __name__ == "__main__":
