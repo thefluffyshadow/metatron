@@ -14,28 +14,18 @@ File Description:
 """
 
 from Breeder import Breeder
-from random import random
+from random import random, choice
 from time import time
 
-#########################
-# Configurables         #
-#########################
-max_time = 20           # Maximum time the algorithm is allowed to run.
-max_gens = 100000       # Maximum generations the algorithm is allowed to run.
-population_size = 100   # Number of individuals in each generation.
-mutation_chance = 0.03  # Chance of an individual being spontaneously mutated.
-tournament_size = 4     # Number of individuals in the arena in tournaments for breeding.
-#########################
 
-if __name__ == "__main__":
-
+def build_army(max_time, max_gens, population_size, mutation_chance, tournament_size):
     gen = 0                 # Create the generational index
     global_start = time()   # Remember when the whole process started running.
 
-    Sauron = Breeder(population_size, tournament_size)
+    Sauron = Breeder(get_genes(), population_size, tournament_size)
 
     # Do generations until either the time or generations allowed is over the limit.
-    while gen < max_gens and time() - gen_start < max_time:
+    while gen < max_gens and time() - global_start < max_time:
         gen += 1            # Increment the generation count.
 
         # Breed the current generation to create the next.
@@ -50,3 +40,28 @@ if __name__ == "__main__":
         # TODO: Note noteworthy things about the new generation.
 
         # TODO: Once I have a way to examine errors in the minions, log any program that comes up clean.
+
+        format_string = "Generation :{:" + str(len(str(max_gens))) + "}/{}"
+        print(format_string.format(gen, max_gens))
+
+    print(choice(Sauron.population))
+
+
+def get_genes():
+    with open("dna.py") as f:
+        words = f.read().split("\n")
+    return words
+
+
+if __name__ == "__main__":
+    #########################
+    # Configurables         #
+    #########################
+    max_time = 5            # Maximum time the algorithm is allowed to run.
+    max_gens = 100000       # Maximum generations the algorithm is allowed to run.
+    population_size = 100   # Number of individuals in each generation.
+    mutation_chance = 0.03  # Chance of an individual being spontaneously mutated.
+    tournament_size = 4     # Number of individuals in the arena in tournaments for breeding.
+    #########################
+
+    build_army(max_time, max_gens, population_size, mutation_chance, tournament_size)

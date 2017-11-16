@@ -13,15 +13,7 @@ File Description:
             Class which defines the individual, nicknamed a minion in keeping with the whole eugenics lord theme.
 """
 
-from random import randint
-
-
-def spawn_program():
-    """
-    Creates a new python program from samples.
-    :return:
-    """
-    return []
+from random import randint, shuffle
 
 
 class Minion:
@@ -30,15 +22,12 @@ class Minion:
 
         # Program is passed in as a list from breeding (or from new generation).
         # If no given program (i.e. from breeding) is passed in, then a new program is generated for the Minion.
-        if self.program is not None:
-            self.program = program
-        else:
-            self.program = spawn_program()
+        self.program = program
 
         self.fitness = self.fitness(self.program)
 
     def __str__(self):
-        return '\n'.join(self.program)
+        return "Minion {}:\n{}".format(self.id, '\n'.join(self.program))
 
     def __lt__(self, other):
         return self.fitness < other.fitness
@@ -55,11 +44,12 @@ class Minion:
     def __gt__(self, other):
         return self.fitness > other.fitness
 
-    def fitness(self):
+    def __len__(self):
+        return len(self.program)
+
+    def fitness(self, program):
         """
         Measures and returns the fitness of the minion.
         :return: int
         """
-        print("{}:\n{}".format(self.id, self.program))
-
         return randint(-1000, 1000)

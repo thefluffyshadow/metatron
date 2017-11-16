@@ -39,7 +39,7 @@ class SortingLord:
     SortingLord is the entity which manages the generational eugenics of his sorting minions.
     It is the overall genetic algorithm manager.
     """
-    def __init__(self, max_generations, population_size, mutation_chance, tournament_size):
+    def __init__(self, max_time, max_generations, population_size, mutation_chance, tournament_size):
         """
         :param max_generations: The maximum number of generations that the GA will run.
         :param population_size: The number of minions (candidate sorting programs) per generation.
@@ -47,6 +47,7 @@ class SortingLord:
         :param tournament_size: The number of members to go into the tournament
         """
         # Here are the parameters of the GA.
+        self.max_time = max_time * 60           # How many seconds (input as minutes) the GA will run for.
         self.max_generations = max_generations  # How many generations the GA will run for.
         self.population_size = population_size  # How many program candidates are in each population.
         self.mutation_chance = mutation_chance  # Percent chance that a given child will mutate spontaneously.
@@ -150,7 +151,7 @@ class SortingLord:
         idx1 = randint(1, len(parent1) - 1)
         idx2 = randint(1, len(parent2) - 1)
 
-        child = parent1[:idx1] + parent2[idx2:]
+        child = parent1[:idx1] + parent2[idx1:idx2] + parent1[idx2:]
 
         return child
 
@@ -237,8 +238,12 @@ class SortingLord:
             gen = -1
             generation_best_fitness = -float('inf')
             genstart = time()
+            glostart = time()
 
-            while generation_best_fitness < self.test_fitness(goal) and gen < self.max_generations:
+            while generation_best_fitness < self.test_fitness(goal) and \
+                            gen < self.max_generations and \
+                            time() - glostart < self.max_time:
+
                 if time() - genstart > 1:
                     genstart = time()
                 gen += 1
@@ -253,7 +258,7 @@ class SortingLord:
                     if Tracer:
                         print("Child: " + str(child))
 
-                    if self.test_fitness(child) < self.averageFitness and random() < self.mutation_chance:
+                    if random() < self.mutation_chance:
                         child = self.mutate(child)
 
                     generation_best_fitness = max(self.population_fitness)
@@ -277,7 +282,7 @@ class SortingLord:
 
                 if time() - genstart > 1 or gen == self.max_generations or gen == 0:
                     generation_timer.stop_timer()
-                    print("|| Generation: {:6,} | Best Fitness: {:8,} ".format(gen, generation_best_fitness) +
+                    print("|| Generation: {:8,} | Best Fitness: {:8,} ".format(gen, generation_best_fitness) +
                           "| Average: {:8,} | Overall Best: {:8,} | ".format(self.averageFitness, self.bestFitness) +
                           "Time: {:4.3f} sec ||".format(generation_timer.duration))
                     generation_timer.reset_timer()
@@ -305,9 +310,9 @@ if __name__ == '__main__':
     goal = "Champion of the World"
 
     if Tracer:
-        HedleyLamarr = SortingLord(10, 6, 0.5, 2)
+        HedleyLamarr = SortingLord(1, 10, 6, 0.5, 2)
 
     else:
-        HedleyLamarr = SortingLord(100000, 100, 0.1, 4)
+        HedleyLamarr = SortingLord(20, float("inf"), 100, 0.005, 2)
 
     HedleyLamarr.now_go_do_that_voodoo_that_you_do_so_well()
