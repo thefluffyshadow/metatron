@@ -37,24 +37,33 @@ def build_army(max_time, max_gens, population_size, mutation_chance, tournament_
 
             Sauron.next_population.append(child)  # Put the child in the next generation.
 
-        # TODO: Note noteworthy things about the new generation.
+        for minion in Sauron.population:
+            if minion.fitness > min_program_len:
+                Sauron.elite_force.append(minion)
 
-        # TODO: Once I have a way to examine errors in the minions, log any program that comes up clean.
-
-        format_string = "Generation :{:" + str(len(str(max_gens))) + "}/{}"
-        print(format_string.format(gen, max_gens))
-
-    print(choice(Sauron.population))
+    # After it is finished running, print to a file all of the programs that worked.
+    with open("eliteforce.txt", 'w') as recorder:
+        for minion in Sauron.elite_force:
+            recorder.write(str(minion))
+            recorder.write("\n" + "="*32 + "\n")
+    print("{:,} programs longer than {:} lines generated.".format(len(Sauron.elite_force), min_program_len))
+    print("Ran for {:.3f} seconds.".format(time() - global_start))
 
 
 def get_genes():
     with open("dna.py") as f:
         prog = f.read().split("\n")
 
-    # Filter out blank lines
-    for line in range(len(prog)-1):
-        if prog[line] == "":
+    # Filter out blank lines and comment lines
+    line = 0
+    while line != len(prog):
+        if line == 0 and (prog[line].strip() == "" or prog[line].startswith("#")):
+            prog = prog[1:]
+            continue
+        elif prog[line].strip() == "" or prog[line].startswith("#"):
             prog = prog[:line] + prog[line+1:]
+            continue
+        line += 1
 
     return prog
 
@@ -68,6 +77,8 @@ if __name__ == "__main__":
     population_size = 100   # Number of individuals in each generation.
     mutation_chance = 0.03  # Chance of an individual being spontaneously mutated.
     tournament_size = 4     # Number of individuals in the arena in tournaments for breeding.
+    min_program_len = 10    # The minimum length of a working program for it to be recorded.
     #########################
 
+    # Now the show begins!
     build_army(max_time, max_gens, population_size, mutation_chance, tournament_size)

@@ -15,7 +15,7 @@ from string import ascii_letters
 from time import time
 
 seed()  # Change the random seed each time the code is run.
-source = ascii_letters + ' '
+source = ' ' + ascii_letters + ' '
 
 
 class Timer:
@@ -108,15 +108,7 @@ class SortingLord:
 
     @staticmethod
     def spawn_new_minion():
-        """
-        Generates a single "program" - a list of MAL instruction strings separated by newlines.
-        :return:
-        """
-        new_minion = []
-
-        for _ in range(19):
-            idx = randint(0, len(source) - 1)
-            new_minion.append(source[idx])
+        new_minion = [char for char in source]
 
         return new_minion
 
@@ -151,7 +143,7 @@ class SortingLord:
         idx1 = randint(1, len(parent1) - 1)
         idx2 = randint(1, len(parent2) - 1)
 
-        child = parent1[:idx1] + parent2[idx1:idx2] + parent1[idx2:]
+        child = parent1[:idx1] + parent2[idx2:]
 
         return child
 
@@ -284,7 +276,7 @@ class SortingLord:
                     generation_timer.stop_timer()
                     print("|| Generation: {:8,} | Best Fitness: {:8,} ".format(gen, generation_best_fitness) +
                           "| Average: {:8,} | Overall Best: {:8,} | ".format(self.averageFitness, self.bestFitness) +
-                          "Time: {:4.3f} sec ||".format(generation_timer.duration))
+                          "Time: {:4.3f} sec || {}".format(generation_timer.duration, ''.join(choice(self.elite_force))))
                     generation_timer.reset_timer()
 
             global_timer.stop_timer()

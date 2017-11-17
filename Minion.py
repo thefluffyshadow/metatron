@@ -13,18 +13,11 @@ File Description:
             Class which defines the individual, nicknamed a minion in keeping with the whole eugenics lord theme.
 """
 
-from random import randint, shuffle
-
-
 class Minion:
     def __init__(self, program_id, program):
         self.id = program_id
-
-        # Program is passed in as a list from breeding (or from new generation).
-        # If no given program (i.e. from breeding) is passed in, then a new program is generated for the Minion.
         self.program = program
-
-        self.fitness = self.fitness(self.program)
+        self.fitness = self.fitness()
 
     def __str__(self):
         return "Minion {}:\n{}".format(self.id, '\n'.join(self.program))
@@ -47,9 +40,25 @@ class Minion:
     def __len__(self):
         return len(self.program)
 
-    def fitness(self, program):
+    def fitness(self):
         """
         Measures and returns the fitness of the minion.
+        Executes one more line of the program each time until it is unsuccessful or the program ends.
+        If it hits an error, it cuts off the program at that point.
         :return: int
         """
-        return randint(-1000, 1000)
+        for l in range(2, len(self.program)):
+            try:
+                self.execute(l)
+                return len(self.program)
+            except:
+                self.program = self.program[:l]
+                return len(self.program)
+
+    def execute(self, limit):
+        """
+        Executes the minion's program.
+        :return:
+        """
+        executable = "\n".join(self.program[:limit])
+        exec(executable)

@@ -34,7 +34,12 @@ class Breeder:
         self.elite_force = []  # Here is going to be the list of all the programs that run without errors.
 
     def assign_id(self):
-        id_string = "{:8}".format(self.next_avail_id)
+        """
+        Makes a string of an appropriate length of the minion id number.
+        :return:
+        """
+        format_string = "{:0>" + str(len(str(self.population_size))) + "}"
+        id_string = format_string.format(self.next_avail_id)
         self.next_avail_id += 1
         return id_string
 
@@ -65,16 +70,18 @@ class Breeder:
         parent2 = parents[1]
 
         # Now kith.
-        gene_bgn = randint(1, min(len(parent1), len(parent2)) - 1)  # Generates a random index in the shorter of
-        gene_end = randint(1, min(len(parent1), len(parent2)) - 1)  # parent1 or parent2.
+        child = Minion(self.assign_id(), parent1.program + parent2.program)
 
-        # I want the gene to be switched from parent1 to parent2 for now.
-        # Later, it may just switch the genes between the two parents and return both as children.
-        # Also, see function comment above for possible wish list feature.
-        child = Minion(self.assign_id(),
-                       parent1.program[:gene_bgn]
-                       + parent2.program[gene_bgn:gene_end]
-                       + parent1.program[gene_end:])
+        # gene_bgn = randint(1, min(len(parent1), len(parent2)) - 1)  # Generates a random index in the shorter of
+        # gene_end = randint(1, min(len(parent1), len(parent2)) - 1)  # parent1 or parent2.
+        #
+        # # I want the gene to be switched from parent1 to parent2 for now.
+        # # Later, it may just switch the genes between the two parents and return both as children.
+        # # Also, see function comment above for possible wish list feature.
+        # child = Minion(self.assign_id(),
+        #                parent1.program[:gene_bgn]
+        #                + parent2.program[gene_bgn:gene_end]
+        #                + parent1.program[gene_end:])
 
         return child
 
@@ -107,3 +114,14 @@ class Breeder:
                 champion = gladiator
 
         return champion, runnerup
+
+    def execute_fit(self):
+        # Look through all of the minions to find one with no errors.
+        # If there is one, execute it and move on.
+        for minion in self.population:
+            if minion.fitness > 0:
+                minion.execute()
+                break
+
+        # If there isn't a minion fit to execute, say so.
+        print("No minions fit to execute.")
