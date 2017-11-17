@@ -47,11 +47,13 @@ def build_army(max_time, max_gens, population_size, mutation_chance, tournament_
         Sauron.next_population = []
 
     # After it is finished running, print to a file all of the programs that worked.
+    # TODO: Write only the best 10 programs or 10 random programs.
+    # TODO: Write each program to a separate file named by the minion ID.py
     with open("eliteforce.txt", 'w') as recorder:
         for minion in Sauron.elite_force:
             recorder.write(str(minion))
             recorder.write("\n" + "="*32 + "\n")
-    print("{:,} programs longer than {:} lines generated.".format(len(Sauron.elite_force), min_program_len))
+    print("{:,} programs longer than {} lines generated.".format(len(Sauron.elite_force), min_program_len))
     print("Ran for {:,} generations over {:.3f} seconds.".format(gen, time() - global_start))
 
 
