@@ -12,8 +12,3 @@ First 5 programs generated:
 ----
  abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 
 ----
-Best Program (Fitness:    1,552)
-Generations:  190,597
-Time to run: 20:00.004
-================================
-Whampioo of rhe World

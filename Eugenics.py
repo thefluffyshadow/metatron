@@ -14,7 +14,7 @@ File Description:
 """
 
 from Breeder import Breeder
-from random import random, choice
+from random import random
 from time import time
 
 
@@ -32,8 +32,9 @@ def build_army(max_time, max_gens, population_size, mutation_chance, tournament_
         for _ in range(Sauron.population_size):
             child = Sauron.breed(Sauron.mating_ritual())
 
+            # If it pleases the fates of chance, mutate the child.
             if random() <= mutation_chance:
-                child = Sauron.mutate(child)    # If it pleases the fates of chance, mutate the child.
+                Sauron.mutate(child)
 
             Sauron.next_population.append(child)  # Put the child in the next generation.
 
@@ -41,13 +42,17 @@ def build_army(max_time, max_gens, population_size, mutation_chance, tournament_
             if minion.fitness > min_program_len:
                 Sauron.elite_force.append(minion)
 
+        # Reset for the next generation?
+        Sauron.population = Sauron.next_population
+        Sauron.next_population = []
+
     # After it is finished running, print to a file all of the programs that worked.
     with open("eliteforce.txt", 'w') as recorder:
         for minion in Sauron.elite_force:
             recorder.write(str(minion))
             recorder.write("\n" + "="*32 + "\n")
     print("{:,} programs longer than {:} lines generated.".format(len(Sauron.elite_force), min_program_len))
-    print("Ran for {:.3f} seconds.".format(time() - global_start))
+    print("Ran for {:,} generations over {:.3f} seconds.".format(gen, time() - global_start))
 
 
 def get_genes():
@@ -72,12 +77,12 @@ if __name__ == "__main__":
     #########################
     # Configurables         #
     #########################
-    max_time = 5            # Maximum time the algorithm is allowed to run.
+    max_time = 30            # Maximum time in seconds the algorithm is allowed to run.
     max_gens = 100000       # Maximum generations the algorithm is allowed to run.
     population_size = 100   # Number of individuals in each generation.
     mutation_chance = 0.03  # Chance of an individual being spontaneously mutated.
     tournament_size = 4     # Number of individuals in the arena in tournaments for breeding.
-    min_program_len = 10    # The minimum length of a working program for it to be recorded.
+    min_program_len = 8     # The minimum length of a working program for it to be recorded.
     #########################
 
     # Now the show begins!

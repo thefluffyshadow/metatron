@@ -16,6 +16,8 @@ File Description:
 class Minion:
     def __init__(self, program_id, program):
         self.id = program_id
+        if len(program) > 100:
+            program = program[:101]
         self.program = program
         self.fitness = self.fitness()
 
@@ -44,16 +46,18 @@ class Minion:
         """
         Measures and returns the fitness of the minion.
         Executes one more line of the program each time until it is unsuccessful or the program ends.
-        If it hits an error, it cuts off the program at that point.
         :return: int
         """
+        fitness = 0
+
         for l in range(2, len(self.program)):
             try:
                 self.execute(l)
-                return len(self.program)
+                fitness = len(self.program)
             except:
-                self.program = self.program[:l]
-                return len(self.program)
+                return -1
+
+        return fitness
 
     def execute(self, limit):
         """

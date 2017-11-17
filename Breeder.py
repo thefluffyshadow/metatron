@@ -14,7 +14,7 @@ File Description:
 """
 
 from Minion import Minion
-from random import seed, randint, choice, shuffle
+from random import seed, choice, shuffle, randint
 
 
 class Breeder:
@@ -38,8 +38,7 @@ class Breeder:
         Makes a string of an appropriate length of the minion id number.
         :return:
         """
-        format_string = "{:0>" + str(len(str(self.population_size))) + "}"
-        id_string = format_string.format(self.next_avail_id)
+        id_string = "{:0>8}".format(self.next_avail_id)
         self.next_avail_id += 1
         return id_string
 
@@ -70,29 +69,27 @@ class Breeder:
         parent2 = parents[1]
 
         # Now kith.
-        child = Minion(self.assign_id(), parent1.program + parent2.program)
+        # child = Minion(self.assign_id(), parent1.program + parent2.program)
 
-        # gene_bgn = randint(1, min(len(parent1), len(parent2)) - 1)  # Generates a random index in the shorter of
-        # gene_end = randint(1, min(len(parent1), len(parent2)) - 1)  # parent1 or parent2.
-        #
-        # # I want the gene to be switched from parent1 to parent2 for now.
-        # # Later, it may just switch the genes between the two parents and return both as children.
-        # # Also, see function comment above for possible wish list feature.
-        # child = Minion(self.assign_id(),
-        #                parent1.program[:gene_bgn]
-        #                + parent2.program[gene_bgn:gene_end]
-        #                + parent1.program[gene_end:])
+        gene_bgn = randint(1, min(len(parent1), len(parent2)) - 1)  # Generates a random index in the shorter of
+        gene_end = randint(1, min(len(parent1), len(parent2)) - 1)  # parent1 or parent2.
+
+        # I want the gene to be switched from parent1 to parent2 for now.
+        # Later, it may just switch the genes between the two parents and return both as children.
+        # Also, see function comment above for possible wish list feature.
+        child = Minion(self.assign_id(),
+                       parent1.program[:gene_bgn] + parent2.program[gene_bgn:gene_end] + parent1.program[gene_end:])
 
         return child
 
-    def mutate(self, minion):
+    @staticmethod
+    def mutate(minion):
         """
-        Mutates the minion (python code) in some way.
-        Right now, it creates an entirely new program.
+        Mutates the minion (python code) by shuffling the minion's program.
         :param minion:
         :return:
         """
-        return self.spawn_minion()
+        shuffle(minion.program)
 
     def mating_ritual(self):
         """
