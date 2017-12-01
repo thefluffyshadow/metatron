@@ -17,10 +17,10 @@ d = b
 d = c
 
 # Print statements
-print("a = ", a)
-print("b = ", b)
-print("c = ", c)
-print("d = ", d)
+print("a = " + a)
+print("b = " + b)
+print("c = " + c)
+print("d = " + d)
 
 # Basic Incrementers
 a += 1
@@ -45,12 +45,24 @@ d += a
 d += b
 d += c
 d += d
+a -= a
+a -= b
+a -= c
+a -= d
+b -= a
+b -= b
+b -= c
+b -= d
+c -= a
+c -= b
+c -= c
+c -= d
+d -= a
+d -= b
+d -= c
+d -= d
 
 # Math operations
-a = -a
-b = -b
-c = -c
-d = -d
 a *= a
 a *= b
 a *= c

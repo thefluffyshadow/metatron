@@ -61,6 +61,7 @@ def build_army(max_time, max_gens, population_size, mutation_chance, tournament_
     print("{:,} programs longer than {} lines generated.".format(len(Sauron.elite_force), min_program_len))
     print("Ran for {:,} generations over {:.3f} seconds.".format(gen, time() - global_start))
 
+    return len(Sauron.elite_force)
 
 def get_genes():
     with open("dna.py") as f:
@@ -93,4 +94,7 @@ if __name__ == "__main__":
     #########################
 
     # Now the show begins!
-    build_army(max_time, max_gens, population_size, mutation_chance, tournament_size)
+    strength = build_army(max_time, max_gens, population_size, mutation_chance, tournament_size)
+
+    while strength < 1:
+        strength = build_army(max_time, max_gens, population_size, mutation_chance, tournament_size)

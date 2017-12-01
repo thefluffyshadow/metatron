@@ -54,6 +54,9 @@ class Minion:
             try:
                 self.execute(l)
                 fitness = len(self.program)
+
+                if self.program[-1].startswith("Print"):
+                    fitness *= 1.05
             except:
                 return -1
 
