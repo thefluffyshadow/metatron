@@ -17,10 +17,10 @@ d = b
 d = c
 
 # Print statements
-print(a)
-print(b)
-print(c)
-print(d)
+print("a = ", a)
+print("b = ", b)
+print("c = ", c)
+print("d = ", d)
 
 # Basic Incrementers
 a += 1

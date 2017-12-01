@@ -14,7 +14,7 @@ File Description:
 """
 
 from Breeder import Breeder
-from random import random
+from random import random, choice
 from time import time
 
 
@@ -46,13 +46,18 @@ def build_army(max_time, max_gens, population_size, mutation_chance, tournament_
         Sauron.population = Sauron.next_population
         Sauron.next_population = []
 
-    # After it is finished running, print to a file all of the programs that worked.
-    # TODO: Write only the best 10 programs or 10 random programs.
-    # TODO: Write each program to a separate file named by the minion ID.py
-    with open("eliteforce.txt", 'w') as recorder:
-        for minion in Sauron.elite_force:
-            recorder.write(str(minion))
-            recorder.write("\n" + "="*32 + "\n")
+    if len(Sauron.elite_force) > 0:
+        # After it is finished running, print to a file all of the programs that worked.
+        # Write only the best 10 programs or 10 random programs.
+        # Write each program to a separate file named by the minion ID.py
+        for _ in range(10):
+            p = choice(Sauron.elite_force)
+            with open("Minion" + p.id + ".py", "w") as scribe:
+                scribe.write("\r\n".join(p.program))
+        # Note: at the moment, would break if the length of the elite force happens to be under 10. As it is, that's
+        # unlikely, but it could happen with future changes, so this should be fixed.
+
+    # Print to the terminal some overall statistics.
     print("{:,} programs longer than {} lines generated.".format(len(Sauron.elite_force), min_program_len))
     print("Ran for {:,} generations over {:.3f} seconds.".format(gen, time() - global_start))
 
@@ -79,7 +84,7 @@ if __name__ == "__main__":
     #########################
     # Configurables         #
     #########################
-    max_time = 30            # Maximum time in seconds the algorithm is allowed to run.
+    max_time = 30           # Maximum time in seconds the algorithm is allowed to run.
     max_gens = 100000       # Maximum generations the algorithm is allowed to run.
     population_size = 100   # Number of individuals in each generation.
     mutation_chance = 0.03  # Chance of an individual being spontaneously mutated.
