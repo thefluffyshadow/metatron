@@ -13,9 +13,9 @@ File Description:
             Main genetic algorithm component.
 """
 
-from Breeder import Breeder
 from random import random, choice
 from time import time
+from ProgramMetatron.Breeder import Breeder
 
 
 def build_army(max_time, max_gens, population_size, mutation_chance, tournament_size):

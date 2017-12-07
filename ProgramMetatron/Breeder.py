@@ -13,8 +13,9 @@ File Description:
             Breeder class - details how to breed, select parents, etc.
 """
 
-from Minion import Minion
 from random import seed, choice, shuffle, randint
+
+from ProgramMetatron.Minion import Minion
 
 
 class Breeder:
