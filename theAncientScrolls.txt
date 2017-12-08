@@ -12,3 +12,8 @@ First 5 programs generated:
 ----
  abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 
 ----
+Best Program (Fitness:    1,398)
+Generations:  159,114
+Time to run: 20:00.001
+================================
+dhdmpion oe the dormd

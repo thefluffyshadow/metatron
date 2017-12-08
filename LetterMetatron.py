@@ -17,23 +17,6 @@ from time import time
 seed()  # Change the random seed each time the code is run.
 source = ' ' + ascii_letters + ' '
 
-
-class Timer:
-    def __init__(self):
-        self.start_time = time()
-        self.end_time = None
-        self.duration = None
-
-    def stop_timer(self):
-        self.end_time = time()
-        self.duration = self.end_time - self.start_time
-
-    def reset_timer(self):
-        self.duration = time() - self.start_time
-        self.start_time = time()
-        self.end_time = None
-
-
 class SortingLord:
     """
     SortingLord is the entity which manages the generational eugenics of his sorting minions.
@@ -223,9 +206,6 @@ class SortingLord:
             for forefather in range(5):
                 scribe.write(''.join(map(str, self.population[forefather])) + '\n----\n')
 
-            global_timer = Timer()  # Timer to time the entire GA process
-            generation_timer = Timer()  # Timer to time individual generations between displays
-
             # for gen in range(self.max_generations + 1):
             gen = -1
             generation_best_fitness = -float('inf')
@@ -273,15 +253,14 @@ class SortingLord:
                         print('> \'' + ''.join(member) + '\'')
 
                 if time() - genstart > 1 or gen == self.max_generations or gen == 0:
-                    generation_timer.stop_timer()
+                    gen_time = time() - genstart
                     print("|| Generation: {:8,} | Best Fitness: {:8,} ".format(gen, generation_best_fitness) +
                           "| Average: {:8,} | Overall Best: {:8,} | ".format(self.averageFitness, self.bestFitness) +
-                          "Time: {:4.3f} sec || {}".format(generation_timer.duration, ''.join(choice(self.elite_force))))
-                    generation_timer.reset_timer()
+                          "Time: {:4.3f} sec || {}".format(gen_time, ''.join(choice(self.elite_force))))
 
-            global_timer.stop_timer()
+            global_timer = time() - glostart
 
-            time_to_run = "{:0>2.0f}:{:0>6.3f}".format(global_timer.duration / 60, global_timer.duration % 60)
+            time_to_run = "{:0>2.0f}:{:0>6.3f}".format(global_timer / 60, global_timer % 60)
 
             output_end_string = "Best Program (Fitness: {:8,})\n".format(self.bestFitness) + \
                                 "Generations: {:8,}\n".format(gen) + \
