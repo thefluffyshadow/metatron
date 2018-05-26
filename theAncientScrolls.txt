@@ -2,18 +2,18 @@ Record of the SortingLord Genetic Algorithm
 ================================
 First 5 programs generated:
 ----
- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 
+nBjSJ blCPRkziApVcUEsqLowvFOdTWGyHKMrg teYNxfXahDmIZQu
 ----
- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 
+XfSImCGYjFMKzRaVHWuo JwUbyTPDkiBclevqxnNZthds ErgOpLQA
 ----
- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 
+gypqmZrkFdSvLYjTz IVUCEihHBeJonXWAsxlGMQcPfabKuwODtRN 
 ----
- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 
+Lv eVQGcdORhDpobyYrNjHmugAlwfMWn CBsFZUxkaEStqKXPJzITi
 ----
- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 
+haZiqOcgGMeTrjfKoRCdQy x EDPlJBtmkINvHbXVLzAwpYWusnUFS
 ----
-Best Program (Fitness:    1,398)
-Generations:  159,114
-Time to run: 20:00.001
+Best Program (Fitness:      484)
+Generations:   64,748
+Time to run: 05:39.671
 ================================
-dhdmpion oe the dormd
+Hello World

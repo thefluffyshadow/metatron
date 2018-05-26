@@ -2,17 +2,16 @@
 Programmer: Zachary Champion
 Project:    metatron
 Project Description:
-            A program that generates programs in the same language in which the program itself is written.
-            Metatron Jr. uses a genetic algorithm to breed programs in python; it writes down anything that works
-            (runs without errors) and discard the rest.
-            Individuals will be encoded as lists of lines of python which will not include the newline char.
+            A program that tries to find the best route for a traveling salesman.
+            Individuals will be encoded as lists of city labels.
             Gladiatorial combat will determine who gets the honor of breeding (tournament selection will decide breeding
             parents).
 File:       Minion.py
 File Description:
-            Class which defines the individual, nicknamed a minion in keeping with the whole eugenics lord theme.
+            Class which defines the individual routes.
 """
 from random import randint
+
 
 class Minion:
     def __init__(self, program_id, program):

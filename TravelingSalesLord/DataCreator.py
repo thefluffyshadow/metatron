@@ -5,7 +5,7 @@ Project Description:
     Traveling Sales Lord
 File:       DataCreator.py
 File Description:
-    Creates a text file with a matrix detailing distance information between n cities.
+    Creates a text file with a random sample matrix simulating distance information between n number of cities.
 """
 from random import expovariate
 from string import ascii_uppercase

@@ -63,6 +63,7 @@ def build_army(max_time, max_gens, population_size, mutation_chance, tournament_
 
     return len(Sauron.elite_force)
 
+
 def get_genes():
     with open("dna.py") as f:
         prog = f.read().split("\n")

@@ -15,7 +15,14 @@ from string import ascii_letters
 from time import time
 
 seed()  # Change the random seed each time the code is run.
-source = ' ' + ascii_letters + ' '
+
+
+def lower(string):
+    return string.lower()
+
+
+source = ''.join(sorted(' ' + ascii_letters + ' ', key=lower))
+
 
 class SortingLord:
     """
@@ -37,6 +44,7 @@ class SortingLord:
         self.tournament_size = tournament_size  # Size of the tournaments used in tournament selection.
         # The number of elite clones to keep - proportional to the population size
         self.elite_clones = int(self.population_size / 30) + 1
+        self.census = []
 
         # Here is where the meat of the GA is - this is the information on the population itself and relevant stats
         self.population = [self.spawn_new_minion() for _ in range(self.population_size - self.elite_clones)]
@@ -89,9 +97,16 @@ class SortingLord:
         avg /= len(self.population_fitness)
         self.averageFitness = avg
 
-    @staticmethod
-    def spawn_new_minion():
-        new_minion = [char for char in source]
+    def spawn_new_minion(self):
+        new_minion = []
+
+        for _ in range(1000):
+            new_minion = [char for char in source]
+
+            shuffle(new_minion)
+
+            if new_minion not in self.census:
+                return new_minion
 
         return new_minion
 
@@ -115,18 +130,23 @@ class SortingLord:
 
         return winner
 
-    @staticmethod
-    def breed(parent1, parent2):
+    def breed(self, parent1, parent2):
         """
         Will take in two parents and cross them with each other.
         :param parent1: list[str]
         :param parent2: list[str]
         :return: child list[str]
         """
-        idx1 = randint(1, len(parent1) - 1)
-        idx2 = randint(1, len(parent2) - 1)
+        child = []
 
-        child = parent1[:idx1] + parent2[idx2:]
+        for _ in range(1000):
+            idx1 = randint(1, len(parent1) - 1)
+            idx2 = randint(1, len(parent2) - 1)
+
+            child = parent1[:idx1] + parent2[idx2:]
+
+            if child not in self.census:
+                return child
 
         return child
 
@@ -180,6 +200,7 @@ class SortingLord:
 
         if len(minion) != scale:
             fitness -= scale * abs(len(minion) - len(goal))
+
         else:
             for char in minion:
                 if char in goal:
@@ -278,7 +299,7 @@ if __name__ == '__main__':
     If Tracer is turned on, debugging statements will be printed to the console.
     Also, when running, the GA will run in a shorter "test mode."
     """
-    goal = "Champion of the World"
+    goal = "Hello World"
 
     if Tracer:
         HedleyLamarr = SortingLord(1, 10, 6, 0.5, 2)

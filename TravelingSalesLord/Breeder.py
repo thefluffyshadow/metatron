@@ -22,11 +22,11 @@ class Breeder:
 
         # Breeder's inventory
         self.gene_pool = gene_pool  # Names of the cities
-        self.population = [self.spawn_minion() for _ in range(self.population_size)]
+        self.population = [self.spawn_route() for _ in range(self.population_size)]
         self.next_population = []
 
         # Breeder's records - overall
-        self.best_minion = None  # Best program so far
+        self.best_route = None  # Best program so far
         self.elite_force = []  # Here is going to be the list of all the programs that run without errors.
 
     def assign_id(self):
@@ -38,11 +38,7 @@ class Breeder:
         self.next_avail_id += 1
         return id_string
 
-    def spawn_minion(self):
-        """
-        Creates a new python program from samples.
-        :return:
-        """
+    def spawn_route(self):
         new_minion = Minion(self.assign_id(), self.spawn_program())
         return new_minion
 
@@ -61,11 +57,7 @@ class Breeder:
         seed()  # Seed the random functions anew every time.
 
         # Unpack the parents tuple.
-        parent1 = parents[0]
-        parent2 = parents[1]
-
-        # Now kith.
-        # child = Minion(self.assign_id(), parent1.program + parent2.program)
+        parent1, parent2 = parents
 
         gene_bgn = randint(1, min(len(parent1), len(parent2)) - 1)  # Generates a random index in the shorter of
         gene_end = randint(1, min(len(parent1), len(parent2)) - 1)  # parent1 or parent2.
@@ -73,10 +65,9 @@ class Breeder:
         # I want the gene to be switched from parent1 to parent2 for now.
         # Later, it may just switch the genes between the two parents and return both as children.
         # Also, see function comment above for possible wish list feature.
-        child = Minion(self.assign_id(),
-                       parent1.program[:gene_bgn] + parent2.program[gene_bgn:gene_end] + parent1.program[gene_end:])
+        child_program = parent1.program[:gene_bgn] + parent2.program[gene_bgn:gene_end] + parent1.program[gene_end:]
 
-        return child
+        return Minion(self.assign_id(), child_program)
 
     @staticmethod
     def mutate(minion):
@@ -102,19 +93,9 @@ class Breeder:
         for gladiator in arena:
             if gladiator.fitness > runnerup.fitness:
                 runnerup = gladiator
+
             elif gladiator.fitness > champion.fitness:
                 runnerup = champion
                 champion = gladiator
 
         return champion, runnerup
-
-    def execute_fit(self):
-        # Look through all of the minions to find one with no errors.
-        # If there is one, execute it and move on.
-        for minion in self.population:
-            if minion.fitness > 0:
-                minion.execute()
-                break
-
-        # If there isn't a minion fit to execute, say so.
-        print("No minions fit to execute.")
