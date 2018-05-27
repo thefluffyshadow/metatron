@@ -160,8 +160,8 @@ class SortingLord:
         child = []
 
         for _ in range(1000):
-            idx1 = randint(1, len(parent1) - 1)
-            idx2 = randint(1, len(parent2) - 1)
+            idx1 = randint(0, len(parent1))
+            idx2 = randint(0, len(parent2))
 
             child = parent1[:idx1] + parent2[idx2:]
 
@@ -172,10 +172,11 @@ class SortingLord:
 
     @staticmethod
     def mutate(minion):
-        mutation_weights = [1, 3, 3]
+        mutation_weights = [4, 0, 0, 0]
         # Mutation 0: Shuffle the string
         # Mutation 1: Add random characters to the end of the string
         # Mutation 2: Increment random characters in the string by 1 character
+        # Mutation 3: Delete a character off the front or back of the string at random
 
         mutation_choice = random() * sum(mutation_weights)
 
@@ -211,6 +212,11 @@ class SortingLord:
                 print("Mutation - incrementing characters")
                 print("Mutated: " + str(minion))
 
+        elif mutation_choice < mutation_weights[3]:
+            front_back = randint(0, 1) == 0
+
+            minion = minion[1:] if front_back else minion[:-1]
+
         return minion
 
     def test_fitness(self, minion):
@@ -239,7 +245,7 @@ class SortingLord:
                 fitness -= .1
                 indexM += 1
 
-        fitness -= (len(minion) - len(goal)) / 10
+        fitness -= (len(minion) - len(goal)) / 8
 
         # Since this is a case where the perfect fitness is easily obtainable, return a percent grade.
         return fitness
@@ -259,6 +265,7 @@ class SortingLord:
 
 
             gen = -1
+            last_gen = 0
             generation_best_fitness = -float('inf')
             genstart = time()
             glostart = time()
@@ -269,6 +276,7 @@ class SortingLord:
 
                 if time() - genstart > 1:
                     genstart = time()
+                    last_gen = gen
                 gen += 1
 
                 if Tracer:
@@ -304,10 +312,12 @@ class SortingLord:
                         print('> \'' + ''.join(member) + '\'')
 
                 if time() - genstart > 1 or gen == self.max_generations or gen == 0:
-                    gen_time = time() - genstart
+                    # gen_time = time() - genstart
+                    gens = gen - last_gen
                     print("|| Generation: {:8,} | Best Fitness: {:8,.3f} ".format(gen, generation_best_fitness) +
-                          "| Average: {:8,.3f} | Overall Best: {:8,.3f} | ".format(self.averageFitness, self.bestFitness) +
-                          "Time: {:4.3f} sec || {}".format(gen_time, ''.join(choice(self.elite_force))))
+                          "| Average: {:8,.3f} | Overall Best: {:8,.3f} - {:6.2%} | ".format(
+                              self.averageFitness, self.bestFitness, self.bestFitness / self.goal_fitness) +
+                          "Generations: {:4} || {}".format(gens, ''.join(self.best_minion)))
 
             global_timer = time() - glostart
 
@@ -329,12 +339,12 @@ if __name__ == '__main__':
     If Tracer is turned on, debugging statements will be printed to the console.
     Also, when running, the GA will run in a shorter "test mode."
     """
-    goal = "bullshit"
+    goal = "TheFluffyShadow"
 
     if Tracer:
         HedleyLamarr = SortingLord(1, 10, 6, 0.5, 2)
 
     else:
-        HedleyLamarr = SortingLord(20, float("inf"), 100, 0.005, 2)
+        HedleyLamarr = SortingLord(15, 7500, 100, 0.1, 4)
 
     HedleyLamarr.now_go_do_that_voodoo_that_you_do_so_well()
