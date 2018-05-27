@@ -13,12 +13,30 @@ Date Last Updated:  13 May 2017
 from random import random, seed, choice, randint, shuffle
 from string import ascii_letters
 from time import time
+import re
 
 seed()  # Change the random seed each time the code is run.
 
 
 def lower(string):
     return string.lower()
+
+
+def build_blocks(string):
+    """
+    Returns a dictionary with the characters in the string and the counts of each as the vals.
+    :param string:
+    :return:
+    """
+    dictionary = {}
+
+    for char in string:
+        if char in dictionary:
+            dictionary[char] += 1
+        else:
+            dictionary[char] = 1
+
+    return dictionary
 
 
 source = ''.join(sorted(' ' + ascii_letters + ' ', key=lower))
@@ -45,6 +63,8 @@ class SortingLord:
         # The number of elite clones to keep - proportional to the population size
         self.elite_clones = int(self.population_size / 30) + 1
         self.census = []
+        self.goal_blocks = build_blocks(goal)
+        self.goal_fitness = self.test_fitness(goal)
 
         # Here is where the meat of the GA is - this is the information on the population itself and relevant stats
         self.population = [self.spawn_new_minion() for _ in range(self.population_size - self.elite_clones)]
@@ -193,25 +213,35 @@ class SortingLord:
 
         return minion
 
-    @staticmethod
-    def test_fitness(minion):
-        scale = len(goal)
+    def test_fitness(self, minion):
         fitness = 0
+        building_blocks = build_blocks(minion)
 
-        if len(minion) != scale:
-            fitness -= scale * abs(len(minion) - len(goal))
+        # Grade how many building blocks for the goal the minion has.
+        for char in goal:
+            if char in minion and building_blocks[char] == self.goal_blocks[char]:
+                fitness += building_blocks[char]
 
-        else:
-            for char in minion:
-                if char in goal:
-                    fitness += scale
+        # Now grade how many of them follow in the right order.
+        for pair_num in range(len(goal) - 1):
+            r_string = r".*" + goal[pair_num] + ".*" + goal[pair_num + 1] + ".*"
+            if re.match(r_string, ''.join(minion)):
+                fitness += 2
 
-            for i in range(min((len(minion), len(goal)))):
-                if minion[i] == goal[i]:
-                    fitness += 3 * scale
-                else:
-                    fitness -= abs(ord(minion[i]) - ord(goal[i]))
+        indexM, indexG = 0, 0
+        while indexM < len(minion) and indexG < len(goal):
+            if minion[indexM] == goal[indexG]:
+                fitness += 1
+                indexM += 1
+                indexG += 1
 
+            else:
+                fitness -= .1
+                indexM += 1
+
+        fitness -= (len(minion) - len(goal)) / 10
+
+        # Since this is a case where the perfect fitness is easily obtainable, return a percent grade.
         return fitness
 
     def now_go_do_that_voodoo_that_you_do_so_well(self):
@@ -227,7 +257,7 @@ class SortingLord:
             for forefather in range(5):
                 scribe.write(''.join(map(str, self.population[forefather])) + '\n----\n')
 
-            # for gen in range(self.max_generations + 1):
+
             gen = -1
             generation_best_fitness = -float('inf')
             genstart = time()
@@ -275,8 +305,8 @@ class SortingLord:
 
                 if time() - genstart > 1 or gen == self.max_generations or gen == 0:
                     gen_time = time() - genstart
-                    print("|| Generation: {:8,} | Best Fitness: {:8,} ".format(gen, generation_best_fitness) +
-                          "| Average: {:8,} | Overall Best: {:8,} | ".format(self.averageFitness, self.bestFitness) +
+                    print("|| Generation: {:8,} | Best Fitness: {:8,.3f} ".format(gen, generation_best_fitness) +
+                          "| Average: {:8,.3f} | Overall Best: {:8,.3f} | ".format(self.averageFitness, self.bestFitness) +
                           "Time: {:4.3f} sec || {}".format(gen_time, ''.join(choice(self.elite_force))))
 
             global_timer = time() - glostart
@@ -299,7 +329,7 @@ if __name__ == '__main__':
     If Tracer is turned on, debugging statements will be printed to the console.
     Also, when running, the GA will run in a shorter "test mode."
     """
-    goal = "Hello World"
+    goal = "bullshit"
 
     if Tracer:
         HedleyLamarr = SortingLord(1, 10, 6, 0.5, 2)

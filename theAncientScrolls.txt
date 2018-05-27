@@ -2,18 +2,13 @@ Record of the SortingLord Genetic Algorithm
 ================================
 First 5 programs generated:
 ----
-nBjSJ blCPRkziApVcUEsqLowvFOdTWGyHKMrg teYNxfXahDmIZQu
+HdjzRchwyLgCaVnupSOUbKWNlQvMEPT FeGkJIXxoitfs DYqrmBZA
 ----
-XfSImCGYjFMKzRaVHWuo JwUbyTPDkiBclevqxnNZthds ErgOpLQA
+iXKkS uLjCoGNvRcBtpeOWTfIyVUwzrM ahFmqDQnYxdZAHEgPsbJl
 ----
-gypqmZrkFdSvLYjTz IVUCEihHBeJonXWAsxlGMQcPfabKuwODtRN 
+VOaLvUX mYZRTyDEthsqSGgdNlwBQbfzKnorJuM iPApcHxkIFeWjC
 ----
-Lv eVQGcdORhDpobyYrNjHmugAlwfMWn CBsFZUxkaEStqKXPJzITi
+zMWpuisYcrCUbqnPNKtIAGXfBojVykmhlwEeJLxTQHgvaSORZ  DFd
 ----
-haZiqOcgGMeTrjfKoRCdQy x EDPlJBtmkINvHbXVLzAwpYWusnUFS
+vgWyPpNwdnBDVJYxLhkTaCeHOEGQrizKcj sqUomuSlIf RMFZXAbt
 ----
-Best Program (Fitness:      484)
-Generations:   64,748
-Time to run: 05:39.671
-================================
-Hello World
