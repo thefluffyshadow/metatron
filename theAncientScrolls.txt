@@ -2,18 +2,18 @@ Record of the SortingLord Genetic Algorithm
 ================================
 First 5 programs generated:
 ----
-Nrw JcXl epQAFiLtaSzxvIhuHgYPZCObGDnsVToRUdqmKMEfBkyjW
+lsCmfLHcp xyIhX OtoYaKQrFDRAwbUnVZEdizSjJMGqPkWNeTBugv
 ----
-Vis POWGlwuhrKcxaSAXdHEoZnzgJkjFTbLMCD qYfQItpvNRBeUym
+QwGhFibeEpPm NCZztUSBqjMXWADrxyacuJvdYfLRgklsOTInKoHV 
 ----
-FsIWrukvMYym hKgwjPoXZScidpxORBbaezGHCDAqtfLNUTlEJVQ n
+ZVMphHoatmWLrlyuGgiTExRFDfQU SNdKJcjIzkPYbvOXe BwqCsAn
 ----
-FTB bNCmVstLeZOMIiyApoDwdgQrfxG XEJjUKPYWkSzhcRaHqlvnu
+nENira wuDUIshAvZpqxTYyXjFJtkMLR OSfQecVHWPmKlzobBCdGg
 ----
-KjevzGhqNd SilxoVIfZOFXMUkAaWgHyTJDpQYmCntcsrE wBLbuRP
+KfWxVL v IwHoBZjeQbspOUPaDmiCRtnEuFdyGShNTqkAcrYlgJzMX
 ----
-Best Program (Fitness:     62.0)
-Generations:      700
-Time to run: 02:40.249
+Best Program (Fitness: 59.81666666666665)
+Generations:    6,089
+Time to run: 15:00.041
 ================================
-TheFluffyShadow
+ufy hadoTShef wFluw

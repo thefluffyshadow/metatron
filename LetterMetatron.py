@@ -245,7 +245,7 @@ class SortingLord:
                 fitness -= .1
                 indexM += 1
 
-        fitness -= (len(minion) - len(goal)) / 8
+        fitness -= (len(minion) - len(goal)) / 12
 
         # Since this is a case where the perfect fitness is easily obtainable, return a percent grade.
         return fitness
@@ -339,12 +339,12 @@ if __name__ == '__main__':
     If Tracer is turned on, debugging statements will be printed to the console.
     Also, when running, the GA will run in a shorter "test mode."
     """
-    goal = "TheFluffyShadow"
+    goal = "The Fluffy Shadow"
 
     if Tracer:
         HedleyLamarr = SortingLord(1, 10, 6, 0.5, 2)
 
     else:
-        HedleyLamarr = SortingLord(15, 7500, 100, 0.1, 4)
+        HedleyLamarr = SortingLord(15, 7500, 100, 0.1, 2)
 
     HedleyLamarr.now_go_do_that_voodoo_that_you_do_so_well()
