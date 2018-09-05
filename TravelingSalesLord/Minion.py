@@ -22,7 +22,7 @@ class Minion:
         self.fitness = self.fitness()
 
     def __str__(self):
-        return "Minion {}:\n{}".format(self.id, ' -> '.join(self.route))
+        return "Minion {}:\n\{{}\}".format(self.id, ' -> '.join(self.route))
 
     def __lt__(self, other):
         return self.fitness < other.fitness

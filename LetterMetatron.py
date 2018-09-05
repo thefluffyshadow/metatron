@@ -8,10 +8,10 @@ Description:        A Genetic Algorithm (GA) which breeds a particular string fr
                     Parent selection, before that, is done by tournament selection with a definable tournament size.
 
                     Made for Python 3.6
-Date Last Updated:  13 May 2017
 """
 from random import random, seed, choice, randint, shuffle
 from string import ascii_letters
+from sys import argv
 from time import time
 import re
 
@@ -339,12 +339,18 @@ if __name__ == '__main__':
     If Tracer is turned on, debugging statements will be printed to the console.
     Also, when running, the GA will run in a shorter "test mode."
     """
-    goal = "The Fluffy Shadow"
+    if len(argv) > 1:
+        goal = argv[1]
+    else:
+        goal = raw_input("Goal: ")
+
+    if len(goal) < 1:
+        goal = "Bullshit"
 
     if Tracer:
         HedleyLamarr = SortingLord(1, 10, 6, 0.5, 2)
 
     else:
-        HedleyLamarr = SortingLord(15, 7500, 100, 0.1, 2)
+        HedleyLamarr = SortingLord(30, float('inf'), 100, 0.1, 2)
 
     HedleyLamarr.now_go_do_that_voodoo_that_you_do_so_well()
